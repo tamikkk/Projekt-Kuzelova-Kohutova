@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
+
+import java.io.IOException;
+import java.util.InputMismatchException;
+
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.List;
+
 import java.util.Scanner;
 
 public class DatabazaKnih {
@@ -19,8 +22,8 @@ public class DatabazaKnih {
 		try {
 			cislo = sc.nextInt();
 		} catch (Exception e) {
-			System.out.println("Nastala vyjimka typu " + e.toString());
-			System.out.println("zadejte prosim cele cislo ");
+			System.out.println("Nastala výnimka typu " + e.toString());
+			System.out.println("Zadajte prosím celé číslo ");
 			sc.nextLine();
 			cislo = pouzeCelaCisla(sc);
 		}
@@ -34,19 +37,19 @@ public class DatabazaKnih {
 		boolean run = true;
 		while (run) {
 			FunkcieDatabazy.nacitatKnihy();
-			System.out.println("Vyberte pozadovanou cinnost:");
+			System.out.println("Vyberte požadovanú činnosť:");
 			System.out.println("1 .. pridanie novej knihy");
-			System.out.println("2 .. uprava knihy");
+			System.out.println("2 .. úprava knihy");
 			System.out.println("3 .. zmazanie knihy");
-			System.out.println("4 .. oznacenie knihy ako zapozicane/vratene");
-			System.out.println("5 .. vypis knih");
-			System.out.println("6 .. vyhladanie knihy");
-			System.out.println("7 .. vypis knih daneho autora");
-			System.out.println("8 .. vypis romanov daneho zanru");
-			System.out.println("9 .. vypis podla typu (ucebnica/roman)");
-			System.out.println("10 .. ulozenie do suboru");
-			System.out.println("11 .. nacitanie zo suboru");
-			System.out.println("12 .. ukonceni aplikace");
+			System.out.println("4 .. označenie knihy ako zapozičaná/vrátená");
+			System.out.println("5 .. výpis kníh");
+			System.out.println("6 .. vyhľadanie knihy");
+			System.out.println("7 .. výpis kníh daného autora");
+			System.out.println("8 .. výpis románov daného žánru");
+			System.out.println("9 .. výpis podľa typu (učebnica/román)");
+			System.out.println("10 .. uloženie do súboru");
+			System.out.println("11 .. načítanie zo súboru");
+			System.out.println("12 .. ukončenie aplikácie");
 			volba = pouzeCelaCisla(sc);
 			switch (volba) {
 
@@ -105,7 +108,7 @@ public class DatabazaKnih {
 	}
 
 	public static void pridanieKnihy(Scanner sc) {
-		System.out.println("Vyberte typ knihy (1 - román, 2 - učebnice): ");
+		System.out.println("Vyberte typ knihy (1 - román, 2 - učebnica): ");
 		int typKnihy = 0;
 		while (true) {
 			try {
@@ -113,17 +116,17 @@ public class DatabazaKnih {
 				if (typKnihy == 1 || typKnihy == 2) {
 					break;
 				} else {
-					System.out.println("Můžete vybrat pouze 1 pro román nebo 2 pro učebnici. Zadejte znovu.");
+					System.out.println("Možete vybrať 1 pre román alebo 2 pre učebnicu. Zadajte znova.");
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Neplatný vstup. Zadejte číslo (1 pro román, 2 pro učebnici).");
+				System.out.println("Neplatný vstup. Zadajte číslo (1 pre román, 2 pre učebnicu).");
 				sc.nextLine();
 			}
 
 		}
 		sc.nextLine();
 
-		System.out.println("Zadajte název knihy: ");
+		System.out.println("Zadajte názov knihy: ");
 		String nazov = sc.nextLine();
 
 		System.out.println("Zadajte autora knihy: ");
@@ -136,7 +139,7 @@ public class DatabazaKnih {
 				rokVydania = sc.nextInt();
 				break;
 			} catch (InputMismatchException e) {
-				System.out.println("Nezadali jste platný rok vydání. Zadejte prosím platný rok.");
+				System.out.println("Nezadali ste platný rok vydania. Zadajte platný rok.");
 				sc.nextLine();
 			}
 
@@ -147,41 +150,40 @@ public class DatabazaKnih {
 		int rocnik = 0;
 
 		if (typKnihy == 1) {
-			System.out.println("Zadajte zaner romanu: ");
+			System.out.println("Zadajte žáner románu: ");
 			sc.nextLine();
 			zaner = sc.nextLine();
 			novaKniha = new Roman(nazov, autor, rokVydania, zaner);
 		}
 
 		else if (typKnihy == 2) {
-			System.out.println("Zadajte rocnik, pre ktory je ucebnica urcena: ");
+			System.out.println("Zadajte ročník, pre ktorý je učebnica určená: ");
 			int rocnik1;
 			while (true) {
 				try {
 					rocnik1 = sc.nextInt();
 					break;
 				} catch (InputMismatchException e) {
-					System.out.println("Neplatný vstup. Zadejte prosím rocnik znovu.");
+					System.out.println("Neplatný vstup. Zadajte ročník znova.");
 					sc.nextLine();
 				}
 			}
 			novaKniha = new Ucebnica(nazov, autor, rokVydania, rocnik1);
 		} else {
-			System.out.println("Neplatny vyber typu knihy");
+			System.out.println("Neplatný výber typu knihy");
 			return;
 		}
 		zoznamKnih.add(novaKniha);
 
-		System.out.println("Nová kniha bola uspesne pridana:");
+		System.out.println("Nová kniha bola úspešne pridaná:");
 		System.out.println("Názov: " + novaKniha.getNazov());
 		System.out.print("Autor: " + autor);
-
 		System.out.println("\nRok vydania: " + novaKniha.getRokVydania());
 
 		if (novaKniha instanceof Ucebnica) {
-			System.out.println("Rocnik, pre ktory je urcena: " + ((Ucebnica) novaKniha).getRocnik());
+			System.out.println("Ročnk, pre ktorý je určená: " + ((Ucebnica) novaKniha).getRocnik());
 		} else if (novaKniha instanceof Roman) {
-			System.out.println("Zaner knihy: " + ((Roman) novaKniha).getZaner());
+			System.out.println("Žáner knihy: " + ((Roman) novaKniha).getZaner());
 		}
 
 		FunkcieDatabazy.ulozKnihu(nazov, rokVydania, autor, zaner, rocnik, "");
@@ -189,10 +191,10 @@ public class DatabazaKnih {
 	}
 
 	public static void dostupnost(Scanner sc) {
-		System.out.println("Zadajte nazov knihy, ktoru chcete vratit alebo zapoziciat:  ");
+		System.out.println("Zadajte názov knihy, ktorú chcete vrátiť alebo zapožičať:  ");
 		String nazov = sc.next();
 
-		System.out.println("Chcete knihu vratit alebo zapoziciat? (vracanie - 1, zapozicanie - 2): ");
+		System.out.println("Chcete knihu vrátiť alebo zapožičať? (vracanie - 1, zapožičanie - 2): ");
 		int volba;
 		while (true) {
 			try {
@@ -200,11 +202,11 @@ public class DatabazaKnih {
 				if (volba == 1 || volba == 2) {
 					break;
 				} else {
-					System.out.println(
-							"Můžete zadat pouze 1 pro vrácení knihy nebo 2 pro zapůjčení knihy. Zadejte znovu:");
+					System.out
+							.println("Môžete zadať 1 pre vrátenie knihy alebo 2 pre zapožičanie knihy. Zadajte znova:");
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Neplatný vstup. Zadejte číslo (1 pro vrácení, 2 pro zapůjčení):");
+				System.out.println("Neplatný vstup. Zadajte číslo (1 pre vracanie, 2 pre zapožičanie):");
 				sc.nextLine();
 			}
 		}
@@ -217,14 +219,14 @@ public class DatabazaKnih {
 
 				if (volba == 1) {
 					kniha.setStavDostupnosti(Kniha.StavDostupnosti.VRATENA);
-					System.out.println("Kniha '" + nazov + "' bola označena ako vrátená.");
+					System.out.println("Kniha '" + nazov + "' bola označená ako vrátená.");
 
 				} else if (volba == 2) {
 					kniha.setStavDostupnosti(Kniha.StavDostupnosti.ZAPOZICANA);
-					System.out.println("Kniha '" + nazov + "' bola označena ako zapozicana.");
+					System.out.println("Kniha '" + nazov + "' bola označená ako zapožicaná.");
 
 				} else {
-					System.out.println("Neplatná volba.");
+					System.out.println("Neplatná voľba.");
 					return;
 				}
 				break;
@@ -232,12 +234,12 @@ public class DatabazaKnih {
 		}
 
 		if (!knihaNajdena) {
-			System.out.println("Kniha '" + nazov + "' nebyla nalezena.");
+			System.out.println("Kniha '" + nazov + "' nebola nájdená.");
 		}
 	}
 
 	public static void upravaKnihy(Scanner sc) {
-		System.out.println("Zadejte název knihy, kterou chcete upravit: ");
+		System.out.println("Zadajte názov knihy, ktorú chcete upraviť: ");
 		String nazovUprava = sc.next();
 
 		boolean knihaNajdena = false;
@@ -246,28 +248,28 @@ public class DatabazaKnih {
 			if (kniha.getNazov().equalsIgnoreCase(nazovUprava)) {
 				knihaNajdena = true;
 
-				System.out.println("Vyberte, co chcete upravit:");
+				System.out.println("Vyberte, čo chcete upraviť:");
 				System.out.println("1 - Autor");
-				System.out.println("2 - Rok vydání");
+				System.out.println("2 - Rok vydania");
 				System.out.println("3 - Stav dostupnosti");
 
 				int volba = pouzeCelaCisla(sc);
 				switch (volba) {
 				case 1:
-					System.out.println("Zadejte nového autora: ");
+					System.out.println("Zadajte nového autora: ");
 					sc.nextLine();
 					String autor = sc.nextLine();
 					kniha.setAutor(autor);
-					System.out.println("Autor knihy '" + nazovUprava + "' byli aktualizováni.");
+					System.out.println("Autor knihy '" + nazovUprava + "' bol aktualizovaný.");
 					break;
 				case 2:
-					System.out.println("Zadejte nový rok vydání: ");
+					System.out.println("Zadajte nový rok vydania: ");
 					int rokVydania = pouzeCelaCisla(sc);
 					kniha.setRokVydania(rokVydania);
-					System.out.println("Rok vydání knihy '" + nazovUprava + "' byl aktualizován.");
+					System.out.println("Rok vydania knihy '" + nazovUprava + "' bol aktualizovaný.");
 					break;
 				case 3:
-					System.out.println("Zadejte nový stav dostupnosti (VRATENA/ZAPOZICANA): ");
+					System.out.println("Zadajte nový stav dostupnosti (VRATENA/ZAPOZICANA): ");
 					String stav = sc.next().toUpperCase();
 					Kniha.StavDostupnosti novyStav;
 					if (stav.equals("VRATENA")) {
@@ -275,14 +277,14 @@ public class DatabazaKnih {
 					} else if (stav.equals("ZAPOZICANA")) {
 						novyStav = Kniha.StavDostupnosti.ZAPOZICANA;
 					} else {
-						System.out.println("Neplatná volba stavu dostupnosti.");
+						System.out.println("Nepľatná voľba stavu dostupnosti.");
 						return;
 					}
 					kniha.setStavDostupnosti(novyStav);
-					System.out.println("Stav dostupnosti knihy '" + nazovUprava + "' byl aktualizován.");
+					System.out.println("Stav dostupnosti knihy '" + nazovUprava + "' bol aktualizovaný.");
 					break;
 				default:
-					System.out.println("Neplatná volba.");
+					System.out.println("Neplatná voľba.");
 					return;
 				}
 				break;
@@ -290,13 +292,13 @@ public class DatabazaKnih {
 		}
 
 		if (!knihaNajdena) {
-			System.out.println("Kniha '" + nazovUprava + "' nebyla nalezena.");
+			System.out.println("Kniha '" + nazovUprava + "' nebola nájdená.");
 		}
 
 	}
 
 	public static void mazanieKnihy(Scanner sc) {
-		System.out.println("Zadejte nazov knihy, ktoru chcete zmazat: ");
+		System.out.println("Zadajte názov knihy, ktorú chcete zmazať: ");
 		String knihaNazov = sc.next();
 
 		boolean knihaNajdena = false;
@@ -306,13 +308,13 @@ public class DatabazaKnih {
 			if (kniha.getNazov().equalsIgnoreCase(knihaNazov)) {
 				zoznamKnih.remove(i);
 				knihaNajdena = true;
-				System.out.println("Kniha '" + knihaNazov + "' byla smazána.");
+				System.out.println("Kniha '" + knihaNazov + "' bola zmazaná.");
 				break;
 			}
 		}
 
 		if (!knihaNajdena) {
-			System.out.println("Kniha '" + knihaNazov + "' nebyla nalezena.");
+			System.out.println("Kniha '" + knihaNazov + "'nebola nájdená.");
 		}
 	}
 
@@ -324,15 +326,15 @@ public class DatabazaKnih {
 
 		Collections.sort(zoznamKnih, Comparator.comparing(Kniha::getNazov));
 
-		System.out.println("Seznam knih v abecedním pořadí:");
+		System.out.println("Zoznam kníh podľa abecedy: ");
 		for (Kniha kniha : zoznamKnih) {
-			System.out.println("Název: " + kniha.getNazov());
+			System.out.println("Názov: " + kniha.getNazov());
 			System.out.print("Autor: " + kniha.getAutor());
-			System.out.println("\nRok vydání: " + kniha.getRokVydania());
+			System.out.println("\nRok vydania: " + kniha.getRokVydania());
 			System.out.println("Stav dostupnosti: " + kniha.getStavDostupnosti());
 
 			if (kniha instanceof Roman) {
-				System.out.println("Žánr: " + ((Roman) kniha).getZaner());
+				System.out.println("Žáner: " + ((Roman) kniha).getZaner());
 			} else if (kniha instanceof Ucebnica) {
 				System.out.println("Ročník: " + ((Ucebnica) kniha).getRocnik());
 			}
@@ -343,7 +345,7 @@ public class DatabazaKnih {
 	}
 
 	public static void vyhladanieKnihy(Scanner sc) {
-		System.out.println("Zadejte název knihy, kterou chcete vyhledat: ");
+		System.out.println("Zadajte názov knihy, ktorú chcete vyhľadať: ");
 		String hladanyNazov = sc.next();
 
 		boolean knihaNajdena = false;
@@ -352,13 +354,13 @@ public class DatabazaKnih {
 			if (kniha.getNazov().equalsIgnoreCase(hladanyNazov)) {
 				knihaNajdena = true;
 
-				System.out.println("Název: " + kniha.getNazov());
+				System.out.println("Názov: " + kniha.getNazov());
 				System.out.print("Autor: " + kniha.getAutor());
-				System.out.println("\nRok vydání: " + kniha.getRokVydania());
+				System.out.println("\nRok vydania: " + kniha.getRokVydania());
 				System.out.println("Stav dostupnosti: " + kniha.getStavDostupnosti());
 
 				if (kniha instanceof Roman) {
-					System.out.println("Žánr: " + ((Roman) kniha).getZaner());
+					System.out.println("Žáner: " + ((Roman) kniha).getZaner());
 				} else if (kniha instanceof Ucebnica) {
 					System.out.println("Ročník: " + ((Ucebnica) kniha).getRocnik());
 				}
@@ -369,41 +371,41 @@ public class DatabazaKnih {
 		}
 
 		if (!knihaNajdena) {
-			System.out.println("Kniha s názvem '" + hladanyNazov + "' nebyla nalezena.");
+			System.out.println("Kniha s názvom '" + hladanyNazov + "' nebola nájdená.");
 		}
 
 	}
 
 	public static void vypisKnihPodlaAutora(Scanner sc) {
-		System.out.println("Zadejte jméno autora, jehož knihy chcete vypsat: ");
-		String hledanyAutor = sc.next();
+		System.out.println("Zadajte meno autora, ktorého knihy chcete vypísať: ");
+		String hladanyAutor = sc.next();
 
 		ArrayList<Kniha> knihyAutora = new ArrayList<>();
 
 		for (Kniha kniha : zoznamKnih) {
 
-			if (kniha.getAutor().equalsIgnoreCase(hledanyAutor)) {
+			if (kniha.getAutor().equalsIgnoreCase(hladanyAutor)) {
 				knihyAutora.add(kniha);
 				break;
 			}
 		}
 
 		if (knihyAutora.isEmpty()) {
-			System.out.println("Kniha od autora '" + hledanyAutor + "' nebyla nalezena.");
+			System.out.println("Kniha od autora '" + hladanyAutor + "' nebola nájdená.");
 			return;
 		}
 		Collections.sort(knihyAutora, Comparator.comparingInt(Kniha::getRokVydania));
-		// Collections.sort(zoznamKnih, Comparator.comparing(Kniha::getNazov));
 
-		System.out.println("Seznam knih autora '" + hledanyAutor + "' v chronologickém pořadí:");
+		System.out.println("Zoznam kníh autora '" + hladanyAutor + "' v chronologickej postupnosti:");
+
 		for (Kniha kniha : knihyAutora) {
-			System.out.println("Název: " + kniha.getNazov());
+			System.out.println("Názov: " + kniha.getNazov());
 			System.out.print("Autor: " + kniha.getAutor());
-			System.out.println("\nRok vydání: " + kniha.getRokVydania());
+			System.out.println("\nRok vydania: " + kniha.getRokVydania());
 			System.out.println("Stav dostupnosti: " + kniha.getStavDostupnosti());
 
 			if (kniha instanceof Roman) {
-				System.out.println("Žánr: " + ((Roman) kniha).getZaner());
+				System.out.println("Žáner: " + ((Roman) kniha).getZaner());
 			} else if (kniha instanceof Ucebnica) {
 				System.out.println("Ročník: " + ((Ucebnica) kniha).getRocnik());
 			}
@@ -414,108 +416,109 @@ public class DatabazaKnih {
 	}
 
 	public static void vypisKnihPodlaZanru(Scanner sc) {
-		System.out.println("Zadejte žánr knih, které chcete vypsat: ");
-		String hledanyZanr = sc.next();
+		System.out.println("Zadajte žáner kníh, ktoré chcete vypísať: ");
+		String hladanyZanr = sc.next();
 
 		ArrayList<Kniha> knihyPodleZanru = new ArrayList<>();
 
 		for (Kniha kniha : zoznamKnih) {
 			if (kniha instanceof Roman) {
 				Roman roman = (Roman) kniha;
-				if (roman.getZaner().equalsIgnoreCase(hledanyZanr)) {
+				if (roman.getZaner().equalsIgnoreCase(hladanyZanr)) {
 					knihyPodleZanru.add(kniha);
 				}
 			}
 		}
 
 		if (knihyPodleZanru.isEmpty()) {
-			System.out.println("Žádné knihy v žánru '" + hledanyZanr + "' nebyly nalezeny.");
+			System.out.println("Žiadne knihy v žánri '" + hladanyZanr + "' neboli nájdené.");
 			return;
 		}
-		System.out.println("Seznam knih v žánru '" + hledanyZanr + "':");
+		System.out.println("Zoznam kníh v žánri '" + hladanyZanr + "':");
 		for (Kniha kniha : knihyPodleZanru) {
-			System.out.println("Název: " + kniha.getNazov());
+			System.out.println("Názov: " + kniha.getNazov());
 			System.out.print("Autor: " + kniha.getAutor());
-			System.out.println("\nRok vydání: " + kniha.getRokVydania());
+			System.out.println("\nRok vydania: " + kniha.getRokVydania());
 			System.out.println("Stav dostupnosti: " + kniha.getStavDostupnosti());
-			System.out.println("Žánr: " + ((Roman) kniha).getZaner());
+			System.out.println("Žáner: " + ((Roman) kniha).getZaner());
 
 			System.out.println();
 		}
 	}
 
 	public static void vypisZapozicanychKnih() {
-		boolean existujeVypujcenaKnih = false;
+		boolean existujeZapozicanaKniha = false;
 
-		System.out.println("Výpis vypůjčených knih:");
+		System.out.println("Výpis zapožičaných kníh:");
 		for (Kniha kniha : zoznamKnih) {
 			if (kniha.getStavDostupnosti() == Kniha.StavDostupnosti.ZAPOZICANA) {
-				existujeVypujcenaKnih = true;
-				System.out.println("Název: " + kniha.getNazov());
+				existujeZapozicanaKniha = true;
+				System.out.println("Názov: " + kniha.getNazov());
 				System.out.print("Typ knihy: ");
 
 				if (kniha instanceof Roman) {
 					System.out.println("Román");
 				} else if (kniha instanceof Ucebnica) {
-					System.out.println("Učebnice");
+					System.out.println("Učebnica");
 				}
 				System.out.println();
 			}
 		}
 
-		if (!existujeVypujcenaKnih) {
-			System.out.println("Žádné knihy nejsou vypůjčené.");
+		if (!existujeZapozicanaKniha) {
+			System.out.println("Žiadne knihy nie sú zapožičané.");
 		}
 	}
 
 	public static void ulozenieKnihyDoSuboru(Scanner sc) {
-		System.out.println("Zadejte název knihy, kterou chcete uložit do souboru: ");
-		String hledanyNazov = sc.next();
+		System.out.println("Zadajte názov knihy, ktorú chcete uložiť do súboru: ");
+		String hladanyNazov = sc.next();
 
 		boolean knihaNajdena = false;
 
 		for (Kniha kniha : zoznamKnih) {
-			if (kniha.getNazov().equalsIgnoreCase(hledanyNazov)) {
+			if (kniha.getNazov().equalsIgnoreCase(hladanyNazov)) {
 				knihaNajdena = true;
-				String souborNazev = "informace_o_knize" + kniha.getNazov() + ".txt";
+				String souborNazev = "informace_o_knihe" + kniha.getNazov() + ".txt";
 
 				try (PrintWriter writer = new PrintWriter(new FileWriter(souborNazev))) {
-					writer.println("Název: " + kniha.getNazov());
+					writer.println("Názov: " + kniha.getNazov());
 					writer.print("Autor: " + kniha.getAutor());
-					writer.println("\nRok vydání: " + kniha.getRokVydania());
+					writer.println("\nRok vydania: " + kniha.getRokVydania());
 					writer.println("Stav dostupnosti: " + kniha.getStavDostupnosti());
 
 					if (kniha instanceof Roman) {
-						writer.println("Žánr: " + ((Roman) kniha).getZaner());
+						writer.println("Žáner: " + ((Roman) kniha).getZaner());
 					} else if (kniha instanceof Ucebnica) {
 						writer.println("Ročník: " + ((Ucebnica) kniha).getRocnik());
 					}
-					System.out.println("Informace o knize '" + kniha.getNazov() + "' byly uloženy do souboru '"
+					System.out.println("Informácie o knihe '" + kniha.getNazov() + "' boli uložené do súboru '"
 							+ souborNazev + "'.");
 
 				} catch (IOException e) {
-					System.out.println("Chyba při zápisu do souboru: " + e.getMessage());
+					System.out.println("Chyba pri zápise do súboru: " + e.getMessage());
 				}
 				break;
 			}
 		}
 
 		if (!knihaNajdena) {
-			System.out.println("Kniha s názvem '" + hledanyNazov + "' nebyla nalezena.");
+			System.out.println("Kniha s názvom '" + hladanyNazov + "' nebola nájdená..");
 		}
 	}
 
 	public static void nacitanieKnihyZoSuboru(Scanner sc) {
-		System.out.println("Zadejte název souboru obsahující informace o knize: ");
-		String souborNazev = sc.next();
+		System.out.println("Zadajte názov súboru obsahujúci informácie o knihe: ");
+		String suborNazov = sc.next();
 
-		try (BufferedReader reader = new BufferedReader(new FileReader(souborNazev))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(suborNazov))) {
 			String line;
-			while ((line = reader.readLine()) != null) {
+			line = reader.readLine();
+			while (line != null) {
 				System.out.println(line);
 			}
 		} catch (IOException e) {
-			System.out.println("Chyba při čtení ze souboru: " + e.getMessage());
+			System.out.println("Chyba pri načítavaní zo súboru: " + e.getMessage());
 		}
 
 	}
